@@ -1,0 +1,12 @@
+{
+  "name": "bike-som-studio",
+  "version": "1.0.0",
+  "description": "Sistema de criação de vinhetas com inteligência artificial",
+  "main": "servidor.js",
+  "scripts": {
+    "start": "node servidor.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
