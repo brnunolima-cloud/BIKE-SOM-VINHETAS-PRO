@@ -1,160 +1,149 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BIKE SOM STUDIO</title>
+
 <style>
-*{box-sizing:border-box}
-body{
- margin:0;
- font-family:Arial,sans-serif;
- background:#101522;
- color:white;
- padding:20px;
+* {
+  box-sizing: border-box;
 }
-.container{max-width:600px;margin:auto}
-header{text-align:center;padding:20px 0}
-.logo{font-size:30px;font-weight:bold;color:#ffb000}
-header p{color:#bbb}
-.box{
- background:#1d2738;
- padding:20px;
- border-radius:15px;
- margin-bottom:18px;
+
+body {
+  font-family: Arial, sans-serif;
+  background: #101010;
+  color: white;
+  margin: 0;
+  padding: 20px;
 }
-h2{color:#ffb000;font-size:20px}
-label{display:block;margin:15px 0 7px}
-input,select,textarea{
- width:100%;
- padding:13px;
- border-radius:8px;
- border:1px solid #45516a;
- background:#101522;
- color:white;
- font-size:16px;
+
+.container {
+  max-width: 600px;
+  margin: auto;
+  background: #202020;
+  padding: 22px;
+  border-radius: 16px;
 }
-textarea{height:130px;resize:vertical}
-button{
- width:100%;
- padding:16px;
- border:0;
- border-radius:9px;
- background:#ffb000;
- color:#111;
- font-size:17px;
- font-weight:bold;
- margin-top:15px;
+
+h1 {
+  color: #ffb000;
+  text-align: center;
 }
-button:disabled{opacity:.5}
-.status{
- text-align:center;
- color:#bbb;
- font-size:13px;
- margin-top:15px;
+
+p {
+  text-align: center;
+  color: #ccc;
 }
-footer{text-align:center;color:#888;font-size:12px}
+
+label {
+  display: block;
+  margin-top: 18px;
+  margin-bottom: 7px;
+  font-weight: bold;
+}
+
+select, textarea, input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid #555;
+  background: #303030;
+  color: white;
+  font-size: 16px;
+}
+
+textarea {
+  height: 140px;
+}
+
+button {
+  width: 100%;
+  padding: 16px;
+  margin-top: 20px;
+  background: #ffb000;
+  border: 0;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 17px;
+}
+
+#resultado {
+  margin-top: 20px;
+  padding: 15px;
+  background: #303030;
+  border-radius: 8px;
+  white-space: pre-wrap;
+}
 </style>
 </head>
+
 <body>
 <div class="container">
 
-<header>
- <div class="logo">🔊 BIKE SOM STUDIO</div>
- <p>Crie vinhetas profissionais com inteligência artificial</p>
-</header>
+<h1>BIKE SOM STUDIO</h1>
+<p>Estúdio profissional de vinhetas e locuções</p>
 
-<div class="box">
- <h2>🎙️ Criar nova vinheta</h2>
+<label>Tipo de produção</label>
+<select id="tipo">
+<option>Bike Som Propaganda</option>
+<option>Vinheta comercial</option>
+<option>Chamada promocional</option>
+<option>Vinheta de rádio</option>
+<option>Outros</option>
+</select>
 
- <label>Nome da empresa ou cliente</label>
- <input id="cliente" placeholder="Digite o nome">
+<label>Escolha a voz</label>
+<select id="voz">
+<option>Masculina</option>
+<option>Feminina</option>
+</select>
 
- <label>Tipo de vinheta</label>
- <select id="tipo">
-  <option>Comércio</option>
-  <option>Promoção</option>
-  <option>Igreja / Gospel</option>
-  <option>Eventos</option>
-  <option>Farmácia</option>
-  <option>Bike Som Propaganda</option>
-  <option>Outros</option>
- </select>
+<label>Estilo da locução</label>
+<select id="estilo">
+<option>Animada</option>
+<option>Grave e potente</option>
+<option>Profissional</option>
+<option>Emocionante</option>
+<option>Gospel</option>
+<option>Promocional</option>
+</select>
 
- <label>Escolha a voz</label>
- <select id="voz">
-  <option value="masculina">Masculina</option>
-  <option value="feminina">Feminina</option>
- </select>
+<label>Texto da vinheta</label>
+<textarea id="texto" placeholder="Digite aqui o texto da sua vinheta..."></textarea>
 
- <label>Estilo da locução</label>
- <select id="estilo">
-  <option>Animada</option>
-  <option>Grave e potente</option>
-  <option>Profissional</option>
-  <option>Emocionante</option>
-  <option>Gospel</option>
-  <option>Promocional</option>
- </select>
+<label>Nome do cliente</label>
+<input id="cliente" placeholder="Nome do cliente">
 
- <label>Texto da vinheta</label>
- <textarea id="texto" placeholder="Digite aqui o texto da sua vinheta..."></textarea>
+<button onclick="gerar()">GERAR PRODUÇÃO</button>
 
- <button id="gerar" onclick="gerarVinheta()">
-  🎧 GERAR VINHETA
- </button>
-
- <p class="status" id="status">Pronto para criar sua vinheta!</p>
- <audio id="audio" controls style="display:none;width:100%;margin-top:15px"></audio>
-</div>
-
-<footer>BIKE SOM STUDIO © 2026</footer>
+<div id="resultado"></div>
 
 </div>
 
 <script>
-async function gerarVinheta(){
- const dados={
-  cliente:document.getElementById("cliente").value,
-  tipo:document.getElementById("tipo").value,
-  voz:document.getElementById("voz").value,
-  estilo:document.getElementById("estilo").value,
-  texto:document.getElementById("texto").value
- };
+function gerar() {
+  const tipo = document.getElementById("tipo").value;
+  const voz = document.getElementById("voz").value;
+  const estilo = document.getElementById("estilo").value;
+  const texto = document.getElementById("texto").value;
+  const cliente = document.getElementById("cliente").value;
 
- if(!dados.texto.trim()){
-  alert("Digite o texto da vinheta!");
-  return;
- }
+  if (!texto.trim()) {
+    alert("Digite o texto da vinheta!");
+    return;
+  }
 
- const botao=document.getElementById("gerar");
- const status=document.getElementById("status");
-
- botao.disabled=true;
- status.textContent="Preparando sua vinheta...";
-
- try{
-  const resposta=await fetch("/api/gerar",{
-   method:"POST",
-   headers:{"Content-Type":"application/json"},
-   body:JSON.stringify(dados)
-  });
-
-  if(!resposta.ok) throw new Error("Serviço ainda não configurado");
-
-  const arquivo=await resposta.blob();
-  const url=URL.createObjectURL(arquivo);
-  const audio=document.getElementById("audio");
-
-  audio.src=url;
-  audio.style.display="block";
-  status.textContent="Vinheta gerada com sucesso!";
- }catch(erro){
-  status.textContent="A conexão com a inteligência artificial será ativada na próxima etapa.";
- }finally{
-  botao.disabled=false;
- }
+  document.getElementById("resultado").innerText =
+    "BIKE SOM STUDIO\n\n" +
+    "Cliente: " + cliente +
+    "\nProdução: " + tipo +
+    "\nVoz: " + voz +
+    "\nEstilo: " + estilo +
+    "\n\nTEXTO DA VINHETA:\n" + texto;
 }
 </script>
+
 </body>
 </html>
